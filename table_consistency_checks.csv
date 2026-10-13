@@ -1,0 +1,11 @@
+,Issues found,Result
+Missing values (total),0,PASS
+Duplicate date-market-product rows,0,PASS
+Rows where price < unit cost,0,PASS
+Rows with zero/negative units,0,PASS
+Rows with zero/negative price,0,PASS
+Revenue != price x units (> tolerance),0,PASS
+Total cost != unit cost x units (> tol.),0,PASS
+Profit != revenue - total cost (> 0.01),0,PASS
+treated_post flag wrong,0,PASS
+Missing rows in the full panel,0,PASS
