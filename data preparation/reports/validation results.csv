@@ -1,0 +1,15 @@
+check,result,detail
+row count preserved,PASS,"raw=87,600 clean=87,600"
+no duplicate market+product+date,PASS,
+no missing region,PASS,
+all market_ids in market_metadata,PASS,
+all product_ids in product_metadata,PASS,
+market_id unique in market_metadata,PASS,
+product_id unique in product_metadata,PASS,
+"date is datetime, no NaT",PASS,
+price > 0,PASS,
+units_sold >= 0,PASS,
+gross_profit = revenue - unit_cost*units,PASS,
+treated_market & treatment match raw file on the row key,PASS,
+flags consistent with missing values,PASS,
+every treated market in metadata has a treatment_date,PASS,
