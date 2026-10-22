@@ -1,0 +1,13 @@
+product_id,category,base_price,base_demand
+P001,Category_1,17.77,66
+P002,Category_2,12.97,51
+P003,Category_3,16.57,76
+P004,Category_4,18.29,56
+P005,Category_1,37.52,89
+P006,Category_2,69.16,61
+P007,Category_3,43.06,73
+P008,Category_4,68.54,64
+P009,Category_1,25.89,45
+P010,Category_2,9.6,60
+P011,Category_3,58.87,67
+P012,Category_4,11.82,79
