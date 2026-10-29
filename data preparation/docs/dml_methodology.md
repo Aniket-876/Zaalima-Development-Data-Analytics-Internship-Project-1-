@@ -10,7 +10,8 @@ Build a reproducible, cross-fitted Double Machine Learning (DML) development pip
 - Features currently used for nuisance models: `competitor_price`, `promotion`, `seasonal_index`, `day_of_week`, `category`, `region`, and `product_id`.
 - Selling `price`, `treated_market`, outcome-derived fields, and `treatment_date` are excluded from the feature matrix to avoid controlling directly for the intervention mechanism or leaking assignment information into nuisance models. This feature set must be reviewed against the approved DAG before substantive interpretation.
 
-## Implementation
+## Implementations
+
 `src/dml_pipeline.py` performs input validation, date-block cross-fitting, fold-specific preprocessing, Ridge outcome prediction, logistic-regression treatment propensity prediction, residualization, and an exploratory partially linear DML point estimate. It writes out-of-fold predictions and diagnostics so the run can be inspected.
 
 ## Validation requirements
