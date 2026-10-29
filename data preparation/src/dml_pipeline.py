@@ -19,7 +19,8 @@ from sklearn.compose import ColumnTransformer
 from sklearn.linear_model import LogisticRegression, Ridge
 from sklearn.impute import SimpleImputer
 from sklearn.model_selection import GroupKFold
-from sklearn.pipeline import Pipeline
+from sklearn.pipeline import Pipeline  
+
 from sklearn.preprocessing import OrdinalEncoder, StandardScaler
 
 REQUIRED_COLUMNS = {
