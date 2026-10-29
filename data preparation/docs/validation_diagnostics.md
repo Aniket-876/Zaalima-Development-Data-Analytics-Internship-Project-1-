@@ -5,6 +5,8 @@
 A credible synthetic control counterfactual relies on achieving a close pre-intervention fit. If the synthetic unit cannot track the treated market when no intervention occurred, post-intervention divergences cannot be credibly interpreted as treatment effects.
 
 ### Metric Formulations:
+
+
 * **Pre-Treatment Mean Squared Prediction Error (MSPE):**
   $$\text{Pre-MSPE}_m = \frac{1}{T_0} \sum_{t=1}^{T_0} \left( Y_{mt} - \widehat{Y}_{mt}^{\text{Synthetic}} \right)^2$$
 * **Root Mean Squared Prediction Error (RMSPE):**
