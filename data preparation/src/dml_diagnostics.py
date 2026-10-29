@@ -34,6 +34,7 @@ def build_diagnostics(path: Path) -> dict:
         "monthly_treatment_share": dates.to_dict(orient="records"),
         "warning": "Treatment is defined by treated market and post-intervention date. Evaluate identification and overlap before interpreting DML estimates causally.",
     }
+    
     return result
 
 
