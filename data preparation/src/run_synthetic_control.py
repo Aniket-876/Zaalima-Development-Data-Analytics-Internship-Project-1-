@@ -248,6 +248,9 @@ def run_pipeline(output_dir: str):
     
     print(f"\nGenerated Plots successfully:\n- {plot1_path}\n- {plot2_path}\n- {plot3_path}")
 
+# if __name__ == "__main__":
+#     out = r"D:\Zaalima Internships\Project\Zaalima-Development-Data-Analytics-Internship\data preparation"
+#     run_pipeline(out)
 if __name__ == "__main__":
-    out = r"C:\Users\Shrusti R\.gemini\antigravity\scratch\causal_pricing_tasks"
+    out = os.path.join(os.getcwd(), "reports")
     run_pipeline(out)

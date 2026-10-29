@@ -1,0 +1,247 @@
+{
+  "rows": 87600,
+  "markets": 20,
+  "products": 12,
+  "date_min": "2024-01-01",
+  "date_max": "2024-12-30",
+  "missing_by_column": {
+    "market_id": 0,
+    "region": 0,
+    "product_id": 0,
+    "category": 0,
+    "date": 0,
+    "treated_market": 0,
+    "treatment_date": 70080,
+    "treatment": 0,
+    "price": 0,
+    "competitor_price": 60,
+    "promotion": 30,
+    "day_of_week": 0,
+    "seasonal_index": 0,
+    "units_sold": 0,
+    "revenue": 0,
+    "unit_cost": 0,
+    "gross_profit": 0,
+    "region_filled_from_metadata": 0,
+    "competitor_price_missing": 0,
+    "promotion_missing": 0
+  },
+  "duplicate_market_product_date_rows": 0,
+  "treatment_counts": {
+    "0": 78816,
+    "1": 8784
+  },
+  "treatment_by_market": [
+    {
+      "market_id": "M001",
+      "treated_market_values": 1,
+      "treatment_values": 2,
+      "treated_rows": 2196,
+      "rows": 4380,
+      "treatment_constant_within_market": false
+    },
+    {
+      "market_id": "M002",
+      "treated_market_values": 1,
+      "treatment_values": 2,
+      "treated_rows": 2196,
+      "rows": 4380,
+      "treatment_constant_within_market": false
+    },
+    {
+      "market_id": "M003",
+      "treated_market_values": 1,
+      "treatment_values": 2,
+      "treated_rows": 2196,
+      "rows": 4380,
+      "treatment_constant_within_market": false
+    },
+    {
+      "market_id": "M004",
+      "treated_market_values": 1,
+      "treatment_values": 2,
+      "treated_rows": 2196,
+      "rows": 4380,
+      "treatment_constant_within_market": false
+    },
+    {
+      "market_id": "M005",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M006",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M007",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M008",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M009",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M010",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M011",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M012",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M013",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M014",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M015",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M016",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M017",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M018",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M019",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    },
+    {
+      "market_id": "M020",
+      "treated_market_values": 1,
+      "treatment_values": 1,
+      "treated_rows": 0,
+      "rows": 4380,
+      "treatment_constant_within_market": true
+    }
+  ],
+  "monthly_treatment_share": [
+    {
+      "date": "2024-01",
+      "treated_row_share": 0.0
+    },
+    {
+      "date": "2024-02",
+      "treated_row_share": 0.0
+    },
+    {
+      "date": "2024-03",
+      "treated_row_share": 0.0
+    },
+    {
+      "date": "2024-04",
+      "treated_row_share": 0.0
+    },
+    {
+      "date": "2024-05",
+      "treated_row_share": 0.0
+    },
+    {
+      "date": "2024-06",
+      "treated_row_share": 0.0
+    },
+    {
+      "date": "2024-07",
+      "treated_row_share": 0.2
+    },
+    {
+      "date": "2024-08",
+      "treated_row_share": 0.2
+    },
+    {
+      "date": "2024-09",
+      "treated_row_share": 0.2
+    },
+    {
+      "date": "2024-10",
+      "treated_row_share": 0.2
+    },
+    {
+      "date": "2024-11",
+      "treated_row_share": 0.2
+    },
+    {
+      "date": "2024-12",
+      "treated_row_share": 0.2
+    }
+  ],
+  "warning": "Treatment is defined by treated market and post-intervention date. Evaluate identification and overlap before interpreting DML estimates causally."
+}
