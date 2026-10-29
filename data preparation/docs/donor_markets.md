@@ -85,3 +85,5 @@ However, control markets cannot be treated as automatically valid comparisons. T
 
 3. **In-Space Placebo Permutation Tests:**
    Re-assign pseudo-treatment status to each donor market iteratively ($j \in \{5, \dots, 20\}$) to compute the empirical distribution of placebo treatment effects and confirm whether the estimated treatment effects in M001–M004 are statistically distinguishable from chance.
+
+
