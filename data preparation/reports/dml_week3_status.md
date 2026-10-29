@@ -13,5 +13,5 @@
 - [ ] Confirm model input/output contract with Shrusti and Harish
 - [ ] Commit actual verified work to Aniket's assigned branch
 
-## Reporting rule
+## Reporting rules
 Do not mark unchecked items complete until the commands have run and the output has been inspected. All findings from the supplied dataset must be labelled simulated/demo results.
