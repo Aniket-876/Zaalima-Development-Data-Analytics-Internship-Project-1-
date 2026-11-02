@@ -34,6 +34,7 @@ CATEGORICAL_FEATURES = ["category", "region", "product_id"]
 FEATURES = NUMERIC_FEATURES + CATEGORICAL_FEATURES
 
 
+
 def load_panel(path: str | Path) -> pd.DataFrame:
     """Load and validate the processed panel without modifying the source file."""
     df = pd.read_csv(path, parse_dates=["date"], low_memory=False)
@@ -49,6 +50,13 @@ def load_panel(path: str | Path) -> pd.DataFrame:
     if df.duplicated(["market_id", "product_id", "date"]).any():
         raise ValueError("Duplicate market_id x product_id x date rows found")
     return df.sort_values(["date", "market_id", "product_id"]).reset_index(drop=True)
+
+
+
+
+
+
+
 
 
 def _preprocessor() -> ColumnTransformer:
