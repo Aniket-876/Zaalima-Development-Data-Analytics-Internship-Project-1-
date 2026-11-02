@@ -102,6 +102,6 @@ Transformations applied: type conversion (dates, `promotion`), trimming/upper-ca
 1. **Mentor confirmation (blocking for the final project):** is simulated data acceptable, or is a real dataset required? All results must be labelled simulation/demo until then.
 2. **Modelling design (not data errors, but worth noting for the synthetic control step):** only 4 of 20 markets are treated (M001–M004, one each from Regions 1–4; Region_5 has none), and treated rows are 10% of the data. Treated markets include small and large ones (market size index 0.73–1.40), so the donor-pool choice will matter.
 3. **Team decision on issues 2 and 3:** exclude, interpolate, or ignore the flagged rows, ideally the same way for every analysis.
-4. Currency and units are not documented in the dataset; worth asking if reported figures need units.
+4. Currency and units are not documented in the datasets; worth asking if reported figures need units.
 
 
