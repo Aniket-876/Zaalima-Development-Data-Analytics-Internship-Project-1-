@@ -3,6 +3,10 @@
 ## Purpose
 Build a reproducible, cross-fitted Double Machine Learning (DML) development pipeline for the algorithmic pricing simulation. The primary outcome is `gross_profit`; `revenue` and `units_sold` are secondary outcomes.
 
+
+
+
+
 ## Input and design
 - Unit: `market_id × product_id × date`.
 - Intervention: `treatment = 1` for treated markets M001–M004 from 2024-07-01 onward.
@@ -10,9 +14,15 @@ Build a reproducible, cross-fitted Double Machine Learning (DML) development pip
 - Features currently used for nuisance models: `competitor_price`, `promotion`, `seasonal_index`, `day_of_week`, `category`, `region`, and `product_id`.
 - Selling `price`, `treated_market`, outcome-derived fields, and `treatment_date` are excluded from the feature matrix to avoid controlling directly for the intervention mechanism or leaking assignment information into nuisance models. This feature set must be reviewed against the approved DAG before substantive interpretation.
 
+
+
+
 ## Implementations
 
 `src/dml_pipeline.py` performs input validation, date-block cross-fitting, fold-specific preprocessing, Ridge outcome prediction, logistic-regression treatment propensity prediction, residualization, and an exploratory partially linear DML point estimate. It writes out-of-fold predictions and diagnostics so the run can be inspected.
+
+
+
 
 ## Validation requirements
 1. Confirm required columns, binary treatment, valid dates, and unique market-product-date keys.
