@@ -96,7 +96,10 @@
       "rows": 4380,
       "treatment_constant_within_market": true
     },
-    {
+   
+
+
+     {
       "market_id": "M009",
       "treated_market_values": 1,
       "treatment_values": 1,
