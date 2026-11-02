@@ -221,6 +221,9 @@ def write_report(results: list[dict], out_dir: Path) -> None:
     (out_dir / "dml_validation_report.md").write_text("\n".join(lines), encoding="utf-8")
 
 
+
+
+
 def run(input_path: Path, output_dir: Path, n_splits: int = 5) -> list[dict]:
     output_dir.mkdir(parents=True, exist_ok=True)
     df = load_panel(input_path)
@@ -235,6 +238,12 @@ def run(input_path: Path, output_dir: Path, n_splits: int = 5) -> list[dict]:
     (output_dir / "dml_diagnostics.json").write_text(json.dumps(results, indent=2), encoding="utf-8")
     write_report(results, output_dir)
     return results
+
+
+
+
+
+
 
 
 def main() -> None:
