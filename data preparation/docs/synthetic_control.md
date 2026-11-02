@@ -14,7 +14,7 @@ Let:
 
 The optimal weight vector $\mathbf{W}^*$ is obtained by solving the constrained convex quadratic programming problem over the pre-treatment period $t \in \{1, \dots, T_0\}$:
 
-$$\min_{\mathbf{W}} \sum_{t=1}^{T_0} \left( Y_{1t} - \sum_{j=2}^{J+1} w_j Y_{jt} \right)^2$$
+$$\min_{\mathbf{W}} \sum_{t=1}^{T_0} \left( Y_{1t} - \sum_{j=2}^{J+1} w_j Y_{jt} \right)^2$$ 
 
 ### Subject to Strict Operational Constraints:
 
