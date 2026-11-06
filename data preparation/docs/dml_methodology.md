@@ -24,6 +24,8 @@ Build a reproducible, cross-fitted Double Machine Learning (DML) development pip
 
 
 
+
+
 ## Validation requirements
 1. Confirm required columns, binary treatment, valid dates, and unique market-product-date keys.
 2. Inspect missingness and verify imputation occurs inside each training fold.
@@ -32,6 +34,7 @@ Build a reproducible, cross-fitted Double Machine Learning (DML) development pip
 5. Review potential market/time shocks, spillovers, unobserved confounding, and repeated-panel dependence.
 6. Compare specifications and document unstable or failed checks.
 7. Keep Synthetic Control and DML estimands separate unless their definitions and assumptions are compatible.
+8. - The reported standard error is explicitly IID-only and must not be used as final panel inference. A mentor-approved panel-aware inference method is required before publishing confidence intervals.
 
 
 
