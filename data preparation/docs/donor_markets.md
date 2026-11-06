@@ -81,7 +81,7 @@ However, control markets cannot be treated as automatically valid comparisons. T
 2. **Synthetic Control Method (SCM) as Robustness:**
    For each treated market $m \in \{M001, M002, M003, M004\}$, solve for non-negative donor weights $W = (w_5, \dots, w_{20})'$ with $\sum w_j = 1$ minimizing pre-treatment distance:
    $$\min_W || X_{1,\text{pre}} - X_{0,\text{pre}} W ||_V$$
-   *Matches on weekly pre-July gross profit, sales volume, and promotional incidence.*
+   *Matches on weekly pre-July gross profit, sales volume, and promotional incidences.*
 
 3. **In-Space Placebo Permutation Tests:**
    Re-assign pseudo-treatment status to each donor market iteratively ($j \in \{5, \dots, 20\}$) to compute the empirical distribution of placebo treatment effects and confirm whether the estimated treatment effects in M001–M004 are statistically distinguishable from chances.
