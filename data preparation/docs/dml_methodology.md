@@ -33,6 +33,8 @@ Build a reproducible, cross-fitted Double Machine Learning (DML) development pip
 6. Compare specifications and document unstable or failed checks.
 7. Keep Synthetic Control and DML estimands separate unless their definitions and assumptions are compatible.
 
+
+
 ## Important limitations
 - Treatment is tied to treated-market membership and the post-July period, so identification and overlap require careful review.
 - Cross-fitting by date blocks prevents all rows from the same date appearing in both train and test folds, but it does not by itself solve panel dependence or causal identification.
