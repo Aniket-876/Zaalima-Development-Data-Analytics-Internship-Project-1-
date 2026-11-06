@@ -76,7 +76,7 @@ However, control markets cannot be treated as automatically valid comparisons. T
 1. **Primary Model Specification (Two-Way Fixed Effects DiD):**
    Estimate on panel of treated units ($M001–M004$) and screened core donor pool ($M008–M020$):
    $$Y_{mpt} = \beta (\text{Treated}_m \times \text{Post}_t) + \mathbf{X}_{mpt}'\boldsymbol{\gamma} + \alpha_m + \lambda_t + \epsilon_{mpt}$$
-   *where $Y_{mpt}$ is `gross_profit`, `revenue`, or `units_sold`, $\alpha_m$ are market fixed effects, $\lambda_t$ are date fixed effects, and standard errors are clustered at the market level.*
+   *where $Y_{mpt}$ is `gross_profit`, `revenue`, or `units_sold`, $\alpha_m$ are market fixed effects, $\lambda_t$ are date fixed effects, and standard errors are clustered at the market level.
 
 2. **Synthetic Control Method (SCM) as Robustness:**
    For each treated market $m \in \{M001, M002, M003, M004\}$, solve for non-negative donor weights $W = (w_5, \dots, w_{20})'$ with $\sum w_j = 1$ minimizing pre-treatment distance:
