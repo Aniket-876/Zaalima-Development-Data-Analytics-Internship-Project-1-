@@ -6,6 +6,9 @@ from pathlib import Path
 import pandas as pd
 
 
+
+
+
 def build_diagnostics(path: Path) -> dict:
     df = pd.read_csv(path, parse_dates=["date"])
     required = ["market_id", "product_id", "date", "treatment", "treated_market"]
