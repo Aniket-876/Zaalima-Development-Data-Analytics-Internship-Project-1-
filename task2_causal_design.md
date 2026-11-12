@@ -92,3 +92,7 @@ flowchart TD
    All four treated markets received the intervention on the identical date (July 1, 2024). Staggered rollout designs cannot be leveraged, heightening vulnerability to calendar-specific shocks.
 4. **Data Simulation Nature:**  
    As noted in project specifications, this dataset is simulated. Findings represent demonstration of causal estimation methods rather than real commercial behavior.
+
+
+feat: identify potential confounding variables
+docs: create initial causal DAG
