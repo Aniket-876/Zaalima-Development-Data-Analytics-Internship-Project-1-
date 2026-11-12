@@ -83,3 +83,5 @@ Run SCM optimization on each of the                                             
    Re-running SCM after strictly excluding direct border markets (M005–M007) produced consistent treatment effect estimates, confirming findings are not artifacts of local substitution.
 3. **In-Time Placebo (Pseudo-Intervention Date):**  
    Setting a fake intervention date at **April 1, 2024** (using Jan–Mar as pre-period) revealed zero statistically significant gap between April and June, confirming the July 1 divergence was not a continuation of an earlier trend.
+
+feat: implement pre treatment MSPE calculation
