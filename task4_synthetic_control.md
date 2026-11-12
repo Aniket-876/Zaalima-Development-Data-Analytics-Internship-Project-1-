@@ -105,3 +105,5 @@ Post-Treatment (Jul 1 - Dec 30):
 ## 5. Production Python Script for Replication
 
 The companion Python script `run_synthetic_control.py` automates the preparation of input matrices, executes constrained convex optimization, outputs diagnostics, and exports high-resolution trajectory charts (`actual_vs_synthetic_gross_profit.png` and `actual_vs_synthetic_units.png`).
+
+feat: calculate synthetic control weights
