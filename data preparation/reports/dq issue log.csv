@@ -1,0 +1,67 @@
+file,check,rows_affected,action,detail
+regional_market_transactions.csv,rows x columns (raw),87600,info,17 columns
+market_metadata.csv,rows x columns (raw),20,info,5 columns
+product_metadata.csv,rows x columns (raw),12,info,4 columns
+market_metadata.csv,missing market_id,0,report only,
+market_metadata.csv,duplicate market_id,0,report only (none to drop),
+market_metadata.csv,missing region,0,report only,
+market_metadata.csv,missing / non-positive market_size_index,0,report only,
+market_metadata.csv,"treated_market not in {0,1}",0,report only,
+market_metadata.csv,treated market without treatment_date,0,report only,
+market_metadata.csv,control market with a treatment_date,0,report only,
+market_metadata.csv,blank treatment_date for control markets,16,kept blank (structural: controls are never treated),
+product_metadata.csv,missing product_id,0,report only,
+product_metadata.csv,duplicate product_id,0,report only (none to drop),
+product_metadata.csv,missing category,0,report only,
+product_metadata.csv,missing / non-positive base_price,0,report only,
+product_metadata.csv,missing / non-positive base_demand,0,report only,
+regional_market_transactions.csv,unparseable date,0,report only,
+regional_market_transactions.csv,date range,0,info,2024-01-01 to 2024-12-30
+regional_market_transactions.csv,exact duplicate rows,0,none found,
+regional_market_transactions.csv,duplicate market_id+product_id+date (after exact-dup removal),0,report only - conflicting duplicates need a human decision,
+regional_market_transactions.csv,market_id not in market_metadata,0,report only,
+regional_market_transactions.csv,product_id not in product_metadata,0,report only,
+regional_market_transactions.csv,market_metadata ids absent from transactions,0,report only,
+regional_market_transactions.csv,product_metadata ids absent from transactions,0,report only,
+regional_market_transactions.csv,missing region,30,see handling below,
+regional_market_transactions.csv,missing competitor_price,60,see handling below,
+regional_market_transactions.csv,missing promotion,30,see handling below,
+regional_market_transactions.csv,blank treatment_date,70080,kept blank (structural: only treated markets have a date),all blanks belong to control markets: True
+regional_market_transactions.csv,region disagrees with market_metadata,0,report only,
+regional_market_transactions.csv,region filled via market_metadata lookup,30,"filled (lookup, not a guess); flag column added",
+regional_market_transactions.csv,category disagrees with product_metadata,0,report only,
+regional_market_transactions.csv,competitor_price missing,60,left missing + flag column (not imputed),
+regional_market_transactions.csv,promotion missing,30,left missing + flag column (not imputed),
+regional_market_transactions.csv,rows with more than one missing/filled field,0,info,
+regional_market_transactions.csv,price <= 0 or missing,0,report only,
+regional_market_transactions.csv,competitor_price <= 0 (non-missing),0,report only,
+regional_market_transactions.csv,units_sold < 0 or missing,0,report only,
+regional_market_transactions.csv,units_sold == 0,0,info (valid zero-sales days),
+regional_market_transactions.csv,revenue < 0 or missing,0,report only,
+regional_market_transactions.csv,unit_cost <= 0 or missing,0,report only,
+regional_market_transactions.csv,unit_cost >= price (negative unit margin),0,report only,
+regional_market_transactions.csv,gross_profit < 0,0,report only,
+regional_market_transactions.csv,"promotion not in {0,1}",0,report only,
+regional_market_transactions.csv,"treated_market/treatment not in {0,1}",0,report only,
+regional_market_transactions.csv,day_of_week disagrees with date (0=Mon),0,report only,
+regional_market_transactions.csv,seasonal_index <= 0,0,report only,
+regional_market_transactions.csv,revenue != price*units beyond 2-dp rounding tolerance,0,report only,
+regional_market_transactions.csv,revenue != price*units exactly (rounding artefact),83504,kept as is,"price and revenue are each rounded to 2 dp, so exact equality is not expected"
+regional_market_transactions.csv,gross_profit != revenue - unit_cost*units,0,report only,
+regional_market_transactions.csv,calendar days missing from the year,1,report only,2024-12-31
+regional_market_transactions.csv,market x product pairs with a different number of days than the maximum,0,report only (panel is balanced if 0),
+regional_market_transactions.csv,treated_market disagrees with market_metadata,0,report only,
+regional_market_transactions.csv,treatment_date disagrees with market_metadata,0,report only,
+regional_market_transactions.csv,control rows with treatment == 1,0,report only,
+regional_market_transactions.csv,treated rows with no treatment_date,0,report only,
+regional_market_transactions.csv,treatment != (date >= treatment_date) for treated markets,0,report only,
+regional_market_transactions.csv,price: |z|>4 within product (outlier candidates),10,"kept, report only",statistically unusual but plausible under promotions / treatment / noise
+regional_market_transactions.csv,competitor_price: |z|>4 within product (outlier candidates),8,"kept, report only",statistically unusual but plausible under promotions / treatment / noise
+regional_market_transactions.csv,units_sold: |z|>4 within product (outlier candidates),8,"kept, report only",statistically unusual but plausible under promotions / treatment / noise
+regional_market_transactions.csv,unit_cost: |z|>4 within product (outlier candidates),0,"kept, report only",statistically unusual but plausible under promotions / treatment / noise
+regional_market_transactions.csv,revenue: |z|>4 within product (outlier candidates),1,"kept, report only",statistically unusual but plausible under promotions / treatment / noise
+regional_market_transactions.csv,"competitor_price/price outside [0.5, 2]",0,report only,
+regional_market_transactions.csv,treatment columns unchanged by cleaning,0,verified,
+regional_market_transactions.csv,row count before -> after cleaning,87600,info,"before=87,600 after=87,600 excluded=0"
+market_metadata.csv,row count before -> after cleaning,20,info,before=20 after=20 excluded=0
+product_metadata.csv,row count before -> after cleaning,12,info,before=12 after=12 excluded=0
