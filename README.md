@@ -372,4 +372,3 @@ This repository is an internship development project and analytical prototype. I
 
 ---
 
-**Before final submission:** confirm the official mentor requirements, approved dataset, current branch, complete dependencies, reproducible model inputs/outputs, test evidence, and final report status. This README describes the state identified during a project audit and should be updated whenever the implementation changes.
