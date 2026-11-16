@@ -68,3 +68,4 @@ Pre-Treatment Period (182 Days)                  Post-Treatment Period (183 Days
 
 docs: define causal inference problem statement
 docs: document treatment and control market definitions
+docs: document pre and post intervention periods
