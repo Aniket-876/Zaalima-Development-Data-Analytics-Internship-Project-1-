@@ -48,6 +48,11 @@ def load_data(path: str) -> pd.DataFrame:
             frame[col] = pd.to_numeric(frame[col], errors="coerce")
     return frame
 
+
+
+
+
+
 def money(value):
     return f"{value:,.0f}" if pd.notna(value) else "—"
 
