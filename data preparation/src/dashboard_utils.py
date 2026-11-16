@@ -31,6 +31,9 @@ def load_transactions(path: str | Path) -> pd.DataFrame:
     return df
 
 
+
+
+
 def validate_transactions(df: pd.DataFrame) -> list[dict[str, object]]:
     """Return a small, inspectable validation report; does not mutate input."""
     checks: list[dict[str, object]] = []
