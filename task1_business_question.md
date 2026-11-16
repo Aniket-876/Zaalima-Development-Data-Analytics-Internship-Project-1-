@@ -65,3 +65,5 @@ Pre-Treatment Period (182 Days)                  Post-Treatment Period (183 Days
 * **Operational Purpose:**
   1. Quantify the immediate and medium-term Average Treatment Effect on the Treated (ATT).
   2. Measure price elasticity decay, promotional interaction effects, and bottom-line gross profit changes.
+
+docs: define causal inference problem statement
