@@ -7,7 +7,7 @@ However, control markets cannot be treated as automatically valid comparisons. T
 1. **Pre-treatment trend alignment** (parallel co-movement with M001–M004 from Jan 1 to Jun 30).
 2. **Data completeness and validation** (coverage of all 12 products across 365 days).
 3. **Market size and structural characteristics** (preventing out-of-support extrapolation).
-4. **Geographic proximity and spillover risks** (SUTVA compliance).
+4. **Geographic proximity and spillover risks** (SUTVA compliances).
 
 ---
 
