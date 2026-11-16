@@ -67,3 +67,4 @@ Pre-Treatment Period (182 Days)                  Post-Treatment Period (183 Days
   2. Measure price elasticity decay, promotional interaction effects, and bottom-line gross profit changes.
 
 docs: define causal inference problem statement
+docs: document treatment and control market definitions
