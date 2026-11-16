@@ -23,6 +23,8 @@
     "inference_warning": "IID-only SE ignores market/product/time dependence; use an approved panel-aware inference strategy before reporting confidence intervals.",
     "identification_warning": "Treatment is assigned by treated market and post-July date. Check overlap, market/time shocks, and design assumptions; predictive fit alone does not establish causality."
   },
+
+  
   {
     "outcome": "revenue",
     "n_rows_used": 87600,
