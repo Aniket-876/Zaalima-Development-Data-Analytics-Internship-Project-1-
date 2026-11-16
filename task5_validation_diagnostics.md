@@ -86,3 +86,4 @@ Run SCM optimization on each of the                                             
 
 feat: implement pre treatment MSPE calculation
 docs: investigate pre-treatment baseline fit and convex hull boundaries
+feat: run in-space placebo permutation tests and robustness checks
