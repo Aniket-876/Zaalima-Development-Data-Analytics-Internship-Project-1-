@@ -81,6 +81,9 @@ if missing_cols:
     st.stop()
 df = df.dropna(subset=["date"]).copy()
 
+
+
+
 # ---------- Interactive filters ----------
 with st.sidebar:
     st.markdown("## Explore the data")
