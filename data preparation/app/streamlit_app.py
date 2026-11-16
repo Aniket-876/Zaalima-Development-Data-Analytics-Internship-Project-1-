@@ -218,6 +218,10 @@ with tabs[3]:
             st.dataframe(weights, use_container_width=True, hide_index=True)
             st.download_button("Download donor weights", weights.to_csv(index=False).encode(), "estimated_scm_weights.csv", "text/csv")
 
+
+
+
+
 with tabs[4]:
     st.subheader("Double Machine Learning outputs")
     est_path = DATA / "dml_estimates_exploratory.csv"
