@@ -8,7 +8,7 @@ Cleaned files are in `data/processed/`; raw files are in `data/raw/` and are nev
 
 Grain: one row per **market × product × day**. 87,600 rows = 20 markets × 12 products × 365 days (2024-01-01 to 2024-12-30). Unique key: `market_id + product_id + date`.
 
-| Column | Type | Description | Values / range | Notes |
+| Column | Type | Description | Values / ranges | Notes |
 |---|---|---|---|---|
 | market_id | string | Market identifier (FK to market metadata) | M001–M020 | No missing values |
 | region | string | Region of the market | Region_1–Region_5 | 30 blanks in raw, filled from market metadata |
