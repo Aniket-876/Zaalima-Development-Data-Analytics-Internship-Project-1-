@@ -24,7 +24,7 @@ $$\min_{\mathbf{W}} \sum_{t=1}^{T_0} \left( Y_{1t} - \sum_{j=2}^{J+1} w_j Y_{jt}
    $$\sum_{j=2}^{J+1} w_j = 1$$
    *(Ensures the synthetic unit is a convex combination strictly inside the support of the donor pool).*
 3. **Sparsity property:**
-   Because the objective function minimizes Euclidean distance over a simplex, the resulting optimal weights are typically sparse, assigning non-zero weights only to the most structurally similar donor markets.
+   Because the objective functions minimizes Euclidean distance over a simplex, the resulting optimal weights are typically sparse, assigning non-zero weights only to the most structurally similar donor markets.
 
 ---
 
