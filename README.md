@@ -1,374 +1,391 @@
 # Causal Inference & Synthetic Control Engine for Algorithmic Pricing
 
-> **Project context:** Zaalima Development — Data Analytics Internship  
-> **Project status:** Development / exploratory validation  
-> **Data status:** The currently documented dataset is simulated development data. It must not be presented as real-world evidence. Confirm with the project mentor whether simulated data is acceptable for the final submission or whether an approved real dataset is required.
+> **Zaalima Development | Data Analytics Internship**  
+> **Project status:** Analytical prototype / exploratory validation  
+> **Data status:** Simulated development data — not real commercial evidence.
 
-## Table of Contents
+An end-to-end analytical prototype for studying the impact of a pricing intervention using **Synthetic Control**, **Double Machine Learning (DML)**, data-quality diagnostics, and an interactive **Streamlit** dashboard.
 
-- [1. Overview](#1-overview)
-- [2. Business Problem](#2-business-problem)
-- [3. Objectives](#3-objectives)
-- [4. Scope and Important Caveats](#4-scope-and-important-caveats)
-- [5. Current Data](#5-current-data)
-- [6. Methodology](#6-methodology)
-- [7. Project Architecture](#7-project-architecture)
-- [8. Streamlit Dashboard](#8-streamlit-dashboard)
-- [9. Repository Structure](#9-repository-structure)
-- [10. Technology Stack](#10-technology-stack)
-- [11. Setup and Execution](#11-setup-and-execution)
-- [12. Testing and Validation](#12-testing-and-validation)
-- [13. Interpreting Results](#13-interpreting-results)
-- [14. Known Limitations and Risks](#14-known-limitations-and-risks)
-- [15. Recommended Next Steps](#15-recommended-next-steps)
-- [16. Team Workflow and Contributions](#16-team-workflow-and-contributions)
-- [17. Documentation Guide](#17-documentation-guide)
-- [18. Disclaimer](#18-disclaimer)
+> [!WARNING]
+> The supplied development dataset is simulated. DML outputs are explicitly labelled exploratory and not validated causal findings. Do not present these estimates as real-world business impact. Confirm dataset approval and causal assumptions with the project mentor before final submission.
 
-## 1. Overview
+## Contents
 
-This project explores how to estimate the effect of an algorithmic pricing intervention using causal-inference techniques. It combines panel-style market and product data, Synthetic Control diagnostics, a Double Machine Learning (DML) pipeline, data-quality checks, and an interactive Streamlit dashboard.
+- [Project overview](#project-overview)
+- [Business problem](#business-problem)
+- [Objectives](#objectives)
+- [Dataset overview](#dataset-overview)
+- [Analytical workflow](#analytical-workflow)
+- [Methodology](#methodology)
+- [Dashboard preview and visualizations](#dashboard-preview-and-visualizations)
+- [Repository structure](#repository-structure)
+- [Technology stack](#technology-stack)
+- [Installation and execution](#installation-and-execution)
+- [Validation and testing](#validation-and-testing)
+- [Current findings and interpretation](#current-findings-and-interpretation)
+- [Limitations and risks](#limitations-and-risks)
+- [Team responsibilities](#team-responsibilities)
+- [Future improvements](#future-improvements)
 
-The intended workflow is:
+## Project overview
 
-**Business question → data ingestion → data quality and preparation → causal design → Synthetic Control and DML analysis → diagnostics and validation → dashboard → business interpretation.**
+The project investigates how to estimate the effect of a dynamic pricing intervention on business outcomes such as revenue, gross profit, and units sold. It combines a market-product-date panel, exploratory data analysis, Synthetic Control diagnostics, a DML-style estimation pipeline, and a Streamlit dashboard.
 
-The project is an analytical decision-support prototype. Its current outputs are exploratory and should not be treated as confirmed causal findings until the data lineage, treatment design, assumptions, and inference methods have been independently validated.
+**Central question:** What might have happened to the treated markets if the pricing intervention had not occurred?
 
-## 2. Business Problem
+The workflow is:
 
-A business may change prices in selected markets and want to understand whether the change affected outcomes such as revenue, units sold, or gross profit. A simple before-and-after comparison can be misleading because outcomes may also change due to seasonality, promotions, competitor prices, market-specific trends, and other time-varying factors.
+```mermaid
+flowchart TD
+    A[Regional transaction and competitor data] --> B[Data quality and preprocessing]
+    B --> C[Causal design: treatment, outcome, confounders, DAG]
+    C --> D[Synthetic Control]
+    C --> E[Double Machine Learning]
+    D --> F[Diagnostics and validation]
+    E --> F
+    F --> G[Streamlit decision-support dashboard]
+    G --> H[Business interpretation and limitations]
+```
 
-The project investigates whether a counterfactual comparison can help estimate what might have happened in treated markets if the pricing intervention had not occurred.
+## Business problem
 
-### Core question
+A simple before-and-after comparison cannot establish that a price change caused a change in revenue. Revenue and demand can also be influenced by seasonality, promotions, competitor prices, market characteristics, and other time-varying factors.
 
-> What is the estimated effect of a pricing intervention on selected business outcomes, compared with a defensible estimate of the counterfactual outcome without the intervention?
+This project uses counterfactual methods to construct a comparison for treated markets and estimate treatment effects under explicit assumptions.
 
-## 3. Objectives
+## Objectives
 
-- Prepare and validate market-product-date observations.
-- Document the treatment, comparison group, intervention date, and causal assumptions.
-- Explore Synthetic Control methods and donor-market diagnostics.
-- Implement a DML-style estimation pipeline with preprocessing and cross-fitting.
-- Report data-quality and model diagnostics alongside estimates.
-- Present selected data and precomputed analytical outputs in a Streamlit dashboard.
-- Make assumptions, uncertainty, limitations, and reproducibility requirements explicit.
+- Inspect, clean, and validate market-product-date observations.
+- Document the treatment, outcome, comparison group, intervention date, and causal assumptions.
+- Explore donor-market selection and Synthetic Control diagnostics.
+- Implement a reusable DML-style pipeline with preprocessing and cross-fitting.
+- Check input validity, missingness, overlap, leakage risks, and estimate stability.
+- Present descriptive analysis and saved model diagnostics in Streamlit.
+- Communicate assumptions, uncertainty, limitations, and reproducibility requirements.
 
-## 4. Scope and Important Caveats
+## Dataset overview
 
-### In scope
+The supplied development data documents a simulated panel with:
 
-- Data inspection, cleaning, and quality checks.
-- Exploratory analysis of price, competitor price, promotion, units sold, revenue, and gross profit.
-- Synthetic Control and DML prototype workflows.
-- Diagnostics, tests, documentation, and dashboard presentation.
+| Attribute | Documented value |
+|---|---:|
+| Observations | 87,600 rows |
+| Markets | 20 |
+| Products | 12 |
+| Date range | 2024-01-01 to 2024-12-30 |
+| Treated markets | M001, M002, M003, M004 |
+| Intervention date | 2024-07-01 |
+| Simulated price intervention | 8% increase in treated markets |
 
-### Not established by the current implementation
-
-- A validated real-world causal effect of algorithmic pricing.
-- Proof that a price change caused the observed changes in business outcomes.
-- Production readiness or deployment to a production environment.
-- Valid final statistical inference from the exploratory DML output.
-
-The current dataset and DML artifacts are labelled as simulated/exploratory. Any external presentation must preserve these qualifications.
-
-## 5. Current Data
-
-The project files document a simulated panel-style dataset with approximately **87,600 rows**, covering **20 markets**, **12 products**, and dates from **1 January 2024 to 30 December 2024**. The final calendar day of the leap year is not present in the documented date range.
-
-The simulated intervention is documented as an **8% price increase** in markets **M001–M004**, beginning **1 July 2024**. These are development assumptions, not observed real-world events.
+The final calendar day of leap year 2024 (December 31) is absent from the documented data range. Currency and measurement units are not specified in the supplied dataset and should not be inferred.
 
 ### Main fields
 
-| Field | Meaning |
+| Field | Description |
 |---|---|
 | `market_id` | Market identifier |
-| `region` | Market region/metadata |
+| `region` | Region metadata |
 | `product_id` | Product identifier |
 | `category` | Product category |
 | `date` | Observation date |
 | `treated_market` | Indicator for designated treated markets |
 | `treatment_date` | Configured intervention date |
-| `treatment` | Treatment-period indicator used in the analysis data |
-| `price` | Product price |
-| `competitor_price` | Competitor-price feature |
-| `promotion` | Promotion indicator/feature |
-| `day_of_week` | Day-of-week feature |
+| `treatment` | Treatment-period indicator |
+| `price` | Selling price |
+| `competitor_price` | Competitor price feature |
+| `promotion` | Promotion feature |
 | `seasonal_index` | Simulated seasonal feature |
 | `units_sold` | Units sold outcome |
 | `revenue` | Revenue outcome |
 | `unit_cost` | Unit cost feature |
-| `gross_profit` | Gross-profit outcome |
+| `gross_profit` | Gross profit outcome |
 
-The cleaned dataset may also include missingness/imputation flags. Consult the data dictionary and cleaning script for the exact definitions and types used in the current files.
+## Analytical workflow
 
-### Data-use note
+1. **Business understanding:** define the pricing question and business outcomes.
+2. **Data preparation:** inspect schema, dates, duplicates, missingness, and data types.
+3. **Causal design:** specify treatment, outcome, pre-treatment period, confounders, and assumptions.
+4. **Exploratory analysis:** study time trends, market/product variation, pricing, promotions, and demand.
+5. **Synthetic Control:** construct weighted donor-market comparisons and inspect pre-treatment fit.
+6. **DML:** preprocess covariates, fit nuisance models, use date-block cross-fitting, and estimate exploratory effects.
+7. **Validation:** inspect overlap, leakage, missing-data behaviour, output shape, and estimate stability.
+8. **Dashboard and reporting:** show descriptive views and saved diagnostic artifacts with clear caveats.
 
-The dataset is synthetic. Its patterns and model estimates cannot establish what would happen in a real market. Before using a real dataset, document its source, licence/permission, extraction date, coverage, data dictionary, and any privacy or confidentiality restrictions.
+## Methodology
 
-## 6. Methodology
+### Synthetic Control
 
-### 6.1 Data preparation and quality
+Synthetic Control constructs a weighted combination of donor markets to approximate the treated market's pre-intervention outcome trajectory. The post-intervention gap between actual and synthetic outcomes is examined as a counterfactual diagnostic.
 
-The preparation workflow checks fields, types, missing values, duplicate market-product-date keys, valid dates and values, treatment consistency, and the arithmetic relationship between revenue, costs, and gross profit. Cleaning and validation outputs are stored in the project data and reports directories.
+The implementation includes donor weights, actual-versus-synthetic plots, pre/post MSPE diagnostics, and placebo-related artifacts. Poor pre-treatment fit must be disclosed rather than hidden. MSPE ratios are diagnostics, not p-values or proof of causality.
 
-Validation reports should be regenerated from the current data and code before a review. A saved report marked `PASS` is not, by itself, proof that the check was rerun against the latest files.
+### Double Machine Learning
 
-### 6.2 Causal design
+The current DML pipeline includes:
 
-The analysis must clearly define:
+- Input and schema checks.
+- Numeric and categorical preprocessing.
+- Ridge outcome nuisance model and Logistic Regression treatment nuisance model.
+- Date-block cross-fitting using `GroupKFold`.
+- Partialling-out treatment-effect estimation.
+- Propensity overlap screening and diagnostic outputs.
 
-- The unit of observation and outcome.
-- Which markets receive treatment and when treatment starts.
-- Which markets are eligible as controls/donors.
-- Pre-intervention and post-intervention periods.
-- Potential confounders, concurrent events, spillovers, and market/time shocks.
-- The assumptions required to interpret estimates causally.
+The saved estimates are marked `EXPLORATORY_NOT_VALIDATED`. The current IID-only standard-error approach is not suitable as final inference for repeated market/product/time observations. The treatment assignment, confounder set, time structure, possible spillovers, and panel dependence require further review.
 
-A causal DAG and written assumptions should be reviewed before interpreting model outputs.
+### ATE and CATE
 
-### 6.3 Synthetic Control
+The official project plan calls for ATE and CATE analysis. The supplied exploratory DML output contains point estimates by outcome; that alone does **not** demonstrate a validated CATE analysis. Do not mark CATE complete until subgroup/conditional estimates and their validation are implemented and documented.
 
-Synthetic Control constructs a weighted combination of donor markets intended to approximate the treated market before the intervention. Post-intervention differences between the treated market and its synthetic counterpart can then be examined.
+## Dashboard preview and visualizations
 
-Important diagnostics include:
+The repository contains the following genuine analytical figures. These are embedded graph assets from the project files, **not screenshots of a live hosted Streamlit session**. The Streamlit application itself contains six interactive tabs described below.
 
-- Pre-intervention fit and pre-period mean squared prediction error (MSPE).
-- Donor eligibility and estimated donor weights.
-- Post/pre MSPE ratios.
-- Placebo or permutation comparisons where appropriate.
-- Sensitivity to donor choices, time windows, and specifications.
+### Streamlit dashboard sections
 
-A post/pre MSPE ratio is a fit diagnostic; it is **not a p-value** and does not by itself prove a causal effect. The current repository contains a Synthetic Control script that generates market series internally. Confirm that saved diagnostic and weight artifacts were generated from the intended canonical project dataset before reporting them as results for that dataset.
+| Tab | What it presents |
+|---|---|
+| Overview | Filtered KPIs, outcome trends, outcome mix, price-demand relationship |
+| Market & Product | Market performance, product/category comparison, searchable market summary, CSV export |
+| Pricing & Promotions | Selling price versus competitor price, promotion comparison, price distributions |
+| Synthetic Control | MSPE diagnostics, actual-versus-synthetic charts, donor weights and download |
+| DML Diagnostics | Saved exploratory DML estimates and diagnostic warnings |
+| Data Quality | Missingness profile, validation checks, filtered record explorer, CSV downloads |
 
-### 6.4 Double Machine Learning (DML)
+Sidebar controls include date range, markets, products, categories, metric, daily/weekly/monthly granularity, and reset filters. The app's descriptive views respond to the selected filters. Saved SCM/DML artifacts are displayed as precomputed outputs; changing dashboard filters does not rerun the causal estimators.
 
-The current DML pipeline includes input checks, preprocessing, date-block cross-fitting, outcome and treatment models, a partialling-out estimate, and an overlap screen. The stored exploratory output includes estimates for `gross_profit`, `revenue`, and `units_sold`.
+### EDA and descriptive visualizations
 
-DML relies on defensible treatment assignment assumptions, suitable covariates, overlap, and an appropriate inference strategy. The current outputs are labelled exploratory and unvalidated. The pipeline also warns that IID-only standard errors are not suitable for final inference when market, product, and time observations are dependent.
+**Monthly totals**
 
-Before presenting DML results as evidence, review the treatment assignment mechanism, covariate timing, market and time dependence, overlap, standard-error strategy, robustness checks, and estimand definition. Do not assume DML and Synthetic Control estimates are directly comparable unless their estimands and assumptions are aligned.
+![Monthly totals](assets/monthly_totals.png)
 
-## 7. Project Architecture
+**Treated versus control markets**
 
-At a high level, the repository contains:
+![Treated versus control](assets/treated_vs_control.png)
 
-1. **Data layer** — raw, cleaned, and processed panel data.
-2. **Preparation layer** — data cleaning and validation utilities.
-3. **Analysis layer** — Synthetic Control and DML pipelines plus diagnostics.
-4. **Artifact layer** — saved weights, diagnostics, estimates, and report outputs.
-5. **Presentation layer** — Streamlit dashboard that displays data and saved analytical artifacts.
-6. **Quality layer** — unit tests and documentation.
+**Units sold and seasonality**
 
-The dashboard currently reads precomputed model artifacts. Changing dashboard filters should not be described as rerunning or refitting the causal models unless that behavior is explicitly implemented and tested.
+![Units and seasonality](assets/units_vs_seasonality.png)
 
-## 8. Streamlit Dashboard
+**Market comparison**
 
-The current Streamlit app contains six tabs:
+![Market comparison](assets/market_comparison.png)
 
-1. **Overview** — high-level project and metric overview.
-2. **Market & Product** — market/product exploration.
-3. **Pricing & Promotions** — pricing and promotion patterns.
-4. **Synthetic Control** — saved Synthetic Control outputs and diagnostics.
-5. **DML Diagnostics** — saved DML estimates and diagnostic information.
-6. **Data Quality** — data-quality indicators and validation information.
+**Product comparison**
 
-The sidebar provides filters for date range, markets, products, categories, metric, and daily/weekly/monthly grain. Because model outputs are precomputed, dashboard filtering primarily changes displayed data and views; it does not automatically rerun the SCM/DML analysis.
+![Product comparison](assets/product_comparison.png)
 
-## 9. Repository Structure
+**Price versus units sold**
 
-The main project files identified in the supplied repository include:
+![Price versus units](assets/price_vs_units.png)
+
+**Competitor price gap**
+
+![Competitor price gap](assets/competitor_price_gap.png)
+
+**Promotion analysis**
+
+![Promotion analysis](assets/promotion_analysis.png)
+
+**Distributions**
+
+![Distributions](assets/distributions.png)
+
+**Units sold boxplot**
+
+![Units boxplot](assets/units_boxplot.png)
+
+### Causal diagnostics visualizations
+
+**Actual versus synthetic gross profit**
+
+![Actual versus synthetic gross profit](assets/actual_vs_synthetic_gross_profit.png)
+
+**Actual versus synthetic units sold**
+
+![Actual versus synthetic units](assets/actual_vs_synthetic_units.png)
+
+**Placebo-in-space distribution**
+
+![Placebo distribution](assets/placebo_in_space_distribution.png)
+
+## Repository structure
+
+The supplied Git repository places the application and supporting files inside the `data preparation/` directory:
 
 ```text
 Zaalima-Development-Data-Analytics-Internship/
 └── data preparation/
     ├── app/
     │   └── streamlit_app.py
-    ├── src/
-    │   ├── clean pricing data.py
-    │   ├── dashboard_utils.py
-    │   ├── dml_pipeline.py
-    │   ├── dml_diagnostics.py
-    │   └── run_synthetic_control.py
     ├── data/
     │   ├── raw/
     │   ├── processed/
-    │   ├── scm_diagnostics_mspe.csv
-    │   ├── estimated_scm_weights.csv
-    │   └── dml_estimates_exploratory.csv
-    ├── reports/
-    │   ├── validation results.csv
-    │   ├── dml_run/
-    │   └── dml_week3_status.md
+    │   ├── cleaned_regional_market_transactions.csv
+    │   ├── dml_estimates_exploratory.csv
+    │   ├── dml_diagnostics.json
+    │   └── scm_diagnostics_mspe.csv
     ├── docs/
+    │   ├── figures/
+    │   ├── business_question.md
     │   ├── causal_design.md
-    │   ├── donor_markets.md
+    │   ├── data dictionary.md
+    │   ├── data quality report.md
     │   ├── dml_methodology.md
     │   ├── synthetic_control.md
     │   └── validation_diagnostics.md
+    ├── notebooks/
+    │   ├── 01 eda.ipynb
+    │   └── 02_dml_analysis.ipynb
+    ├── reports/
+    │   ├── dml_run/
+    │   ├── validation results.csv
+    │   └── dq issue log.csv
+    ├── src/
+    │   ├── clean pricing data.py
+    │   ├── dashboard_utils.py
+    │   ├── dml_diagnostics.py
+    │   ├── dml_pipeline.py
+    │   └── run_synthetic_control.py
     ├── tests/
-    │   ├── test_dml_pipeline.py
-    │   └── test_dashboard_utils.py
-    └── requirements.txt
+    │   ├── test_dashboard_utils.py
+    │   └── test_dml_pipeline.py
+    ├── requirements.txt
+    └── README.md
 ```
 
-This is a guide to the key files identified during the project audit, not a guarantee that every branch or local copy has exactly this structure. Use the actual checked-out branch as the source of truth and remove or document duplicate/legacy files during repository cleanup.
+## Technology stack
 
-## 10. Technology Stack
+- **Language:** Python
+- **Data analysis:** Pandas, NumPy
+- **Machine learning:** Scikit-learn
+- **Causal methods:** Synthetic Control and DML-style partialling-out workflow
+- **Optimization/statistics:** SciPy (used by the Synthetic Control implementation)
+- **Dashboard:** Streamlit
+- **Interactive charts:** Plotly
+- **Visualization/notebooks:** Matplotlib, Seaborn, Jupyter
+- **Version control:** Git and GitHub
 
-The project uses or references:
+## Installation and execution
 
-- Python
-- Pandas and NumPy
-- scikit-learn for preprocessing and machine-learning components
-- SciPy/Statsmodels where used by analysis scripts
-- Matplotlib and Seaborn for plots
-- Streamlit for the dashboard
-- Plotly for interactive charts
-- pytest for automated tests
-- Git and GitHub for version control and collaboration
+Run commands from the `data preparation/` directory.
 
-**Dependency note:** the existing `requirements.txt` was found to omit some libraries imported by the app and analysis code. Verify imports in the current branch and update the dependency file before claiming that a fresh installation is reproducible. Pin or constrain versions consistently with the tested environment.
+### 1. Create and activate a virtual environment
 
-## 11. Setup and Execution
+**Windows PowerShell**
 
-Run commands from the `data preparation` directory. The repository's dependency file may need to be completed before a fresh environment can run all components successfully.
+```powershell
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+```
 
-### 11.1 Create a virtual environment
+**macOS/Linux**
 
 ```bash
 python -m venv .venv
+source .venv/bin/activate
 ```
 
-Activate it:
+### 2. Install runtime dependencies
 
-- Windows PowerShell: `\.venv\Scripts\Activate.ps1`
-- Windows Command Prompt: `.venv\Scripts\activate.bat`
-- macOS/Linux: `source .venv/bin/activate`
-
-### 11.2 Install dependencies
+The checked-in `requirements.txt` should be reviewed and updated because the Streamlit app imports Streamlit and Plotly, the DML pipeline imports scikit-learn, and the Synthetic Control code imports SciPy. Install the required packages in the environment:
 
 ```bash
 python -m pip install --upgrade pip
-pip install -r requirements.txt
+python -m pip install pandas numpy scikit-learn scipy streamlit plotly matplotlib seaborn jupyter
 ```
 
-If an import fails because a required package is absent, verify which project module imports it, add the correct dependency to `requirements.txt`, and test the setup again. Do not rely on a committed local `.venv`; virtual environments should be created locally and excluded from version control.
+For reproducible team setup, pin and record the tested versions in `requirements.txt` after verifying the environment.
 
-### 11.3 Run the dashboard
+### 3. Run the Streamlit dashboard
 
 ```bash
 streamlit run app/streamlit_app.py
 ```
 
-This command assumes Streamlit and all app dependencies are installed. A successful launch should be recorded only after it has actually been tested in the current environment.
+Keep the cleaned transaction CSV at:
 
-### 11.4 Run the tests
+```text
+data/cleaned_regional_market_transactions.csv
+```
+
+### 4. Run tests
 
 ```bash
 python -m pytest -q
 ```
 
-### 11.5 Run analysis scripts
+Record the actual command output and environment. Do not report tests as passed unless they were run successfully on the current revision.
 
-Review each script's current CLI/options and input/output paths before execution. In particular, confirm that Synthetic Control reads the intended project dataset and that rerunning scripts will not silently overwrite reviewed artifacts. Record the exact command, environment, input data version, timestamp, and output paths in the experiment log.
+## Validation and testing
 
-## 12. Testing and Validation
+The project contains data validation reports, DML diagnostic artifacts, and unit-test files. Validation should cover:
 
-During a previous audit of the supplied project, **10 unit tests passed** in the available audit environment. This result applies to those tests and that environment only; it does not establish that the complete dashboard, clean installation, all data checks, or causal methodology has been end-to-end validated.
+- Required columns and valid data types.
+- Duplicate market-product-date keys.
+- Missing and invalid dates.
+- Binary treatment coding and treatment timing.
+- Preprocessing behaviour and missing-data handling.
+- Date-block cross-fitting and leakage prevention.
+- Propensity overlap/positivity.
+- Model output shape and missing values.
+- Synthetic Control donor weights and pre-treatment fit.
+- Reproducibility and dashboard data loading.
 
-Recommended validation layers:
+A prior repository review recorded 10 unit tests passing in its audit environment. This is not a fresh test result for every later repository revision, not an end-to-end browser test, and not evidence of causal validity. Re-run the tests before making a current claim.
 
-- **Data tests:** schema, key uniqueness, missingness, date coverage, valid ranges, treatment consistency, and derived-metric arithmetic.
-- **Unit tests:** individual preprocessing, diagnostics, and dashboard utility functions.
-- **Integration tests:** data-to-model and model-to-dashboard artifact compatibility.
-- **Reproducibility tests:** clean environment installation and repeatable outputs.
-- **Causal validation:** pre-fit, placebo/sensitivity checks, overlap, assumptions, and appropriate uncertainty estimates.
-- **UI tests:** verify the app launches and filters/plots behave as documented.
+## Current findings and interpretation
 
-Record test results with the exact commit and data version. Do not claim tests passed unless they were run against the version being submitted.
+The saved exploratory DML report lists these point estimates:
 
-## 13. Interpreting Results
+| Outcome | Exploratory estimate | Status |
+|---|---:|---|
+| Gross profit | -19.0018 | `EXPLORATORY_NOT_VALIDATED` |
+| Revenue | -45.7928 | `EXPLORATORY_NOT_VALIDATED` |
+| Units sold | -3.44654 | `EXPLORATORY_NOT_VALIDATED` |
 
-When communicating results, separate:
+These values are from simulated development data. They are not validated causal effects, and the IID-only standard errors must not be presented as final panel-robust confidence intervals.
 
-1. **Observed descriptive patterns** — what the dataset shows.
-2. **Model estimates** — outputs produced by a specified method.
-3. **Diagnostic evidence** — checks about fit, overlap, or sensitivity.
-4. **Causal conclusions** — claims that are justified only if assumptions and inference are credible.
+The saved Synthetic Control MSPE diagnostics should be interpreted market by market. A poor pre-treatment fit or unusually large post/pre MSPE ratio requires investigation and transparent reporting; it does not establish statistical significance by itself.
 
-The current DML estimates and Synthetic Control diagnostics should be described as exploratory development outputs until the data lineage and methodology are validated. Include outcome units, treatment definition, estimation window, uncertainty, assumptions, and limitations with every reported estimate. Do not invent business impact, statistical significance, or ROI.
+## Limitations and risks
 
-## 14. Known Limitations and Risks
+- The supplied transaction panel is simulated, not real commercial data.
+- Currency and measurement units are not specified.
+- The documented date range omits 2024-12-31.
+- Treatment is configured for four markets from 2024-07-01; causal identification and confounding assumptions need review.
+- Market, product, and time dependence mean IID-only uncertainty estimates are not adequate for final inference.
+- Possible spillovers between markets may violate standard comparison assumptions.
+- CATE completion is not established by the saved point-estimate table.
+- The dashboard displays saved SCM/DML artifacts; its filters do not refit the causal models.
+- A fully dynamic what-if pricing simulator is not established by the inspected app code.
+- No public hosted dashboard URL was present in the reviewed repository package. Do not claim public deployment without a working URL and verification.
+- The current `requirements.txt` does not list all runtime imports used by the app and modelling modules; update it after environment verification.
 
-- The current dataset is simulated development data, not verified real market data.
-- The documented period ends on 30 December 2024, not 31 December.
-- The Synthetic Control script generates series internally; artifact lineage to the canonical panel needs confirmation.
-- DML outputs are exploratory and explicitly not validated for final inference.
-- The treatment assignment, covariate specification, overlap diagnostics, and panel-aware uncertainty approach require further review.
-- Saved validation reports should be regenerated against the exact submission version.
-- The dashboard displays precomputed model artifacts and does not automatically refit models when filters change.
-- The dependency list requires review for a reproducible fresh setup.
-- Duplicate datasets, duplicate documentation files, and a committed virtual environment may cause confusion and should be cleaned up carefully.
+## Team responsibilities
 
-## 15. Recommended Next Steps
+The supplied proposed work distribution assigns the following ownership:
 
-### Priority 0 — resolve before presenting results
-
-- Obtain mentor confirmation on whether simulated data is acceptable for final evaluation.
-- Trace Synthetic Control inputs and regenerate artifacts from the approved canonical dataset, if required.
-- Review the causal DAG, treatment assignment, covariates, donor eligibility, overlap, and inference approach.
-- Keep all estimates explicitly labelled exploratory until validation supports stronger claims.
-
-### Priority 1 — reproducibility and delivery quality
-
-- Complete and test `requirements.txt`.
-- Remove `.venv` from version control and add it to `.gitignore`.
-- Standardize canonical data and artifact paths; document any retained duplicates.
-- Rerun data validation and tests on the final branch/commit.
-- Test the dashboard from a clean environment and document actual results.
-- Reconcile status reports with verifiable code, test, artifact, and commit evidence.
-
-### Priority 2 — strengthen the final handover
-
-- Add an architecture diagram and data-flow diagram.
-- Add a data dictionary and experiment log with data/version provenance.
-- Provide an executive summary with cautious, evidence-based insights.
-- Document each member's actual contribution and reviewed deliverables.
-- Add limitations, reproducibility instructions, and a short demo script.
-
-## 16. Team Workflow and Contributions
-
-Use the team's agreed Git workflow and the latest official mentor instructions. Keep work on the assigned member branch, commit meaningful changes, and merge through the agreed integration process after review. Do not commit generated files, local environments, or work that has not been checked.
-
-A suggested contribution record is:
-
-| Member | Responsibility area | Evidence to record |
+| Member | Main responsibility | Handover |
 |---|---|---|
-| Fatima | Data sourcing, quality, cleaning, EDA | Source notes, cleaned data, data dictionary, validation output, commits/PRs |
-| Shrusti | Causal design and Synthetic Control | DAG, donor selection, weights, pre-fit/MSPE and placebo/sensitivity diagnostics |
-| Aniket | DML pipeline, diagnostics, integration support | Code, tests, experiment logs, reviewed estimates and commits/PRs |
-| Harish | Testing, dashboard support, documentation/demo | Verified tests, dashboard checks, setup instructions, architecture and report |
+| Fatima | Data sourcing, data quality, cleaning, and basic EDA | Documented, analysis-ready data |
+| Shrusti | Causal design and Synthetic Control | Treatment design, synthetic baseline, diagnostics |
+| Aniket | Double Machine Learning, validation, and integration | DML outputs, tests, model interfaces |
+| Harish | Testing, dashboard support, and final documentation | Test evidence, user guide, report support |
 
-This table is a proposed working map based on the team's discussed division of work, not proof that any task has been completed or an official assessment of individual performance. Update it using actual ownership, evidence, and the latest team agreement.
+This is a proposed team allocation. Follow the latest mentor instructions if they differ. Describe individual contributions accurately and commit only genuine work under the correct Git identity.
 
-## 17. Documentation Guide
+## Future improvements
 
-The following documents should be kept aligned with the code and data:
+1. Obtain mentor approval for the dataset or replace it with an approved real dataset.
+2. Review the DAG, treatment assignment, confounder set, time structure, and spillover assumptions.
+3. Assess donor-pool quality and investigate poor Synthetic Control pre-treatment fit.
+4. Strengthen panel-aware inference and uncertainty estimation for DML.
+5. Implement and validate CATE/subgroup analysis if required by the final scope.
+6. Add a genuine counterfactual what-if interface that reruns the relevant calculations and clearly reports assumptions.
+7. Add integration and end-to-end tests, pin dependencies, and document reproducible setup.
+8. Deploy only after validation, access controls, and mentor approval; then add the verified application URL here.
 
-- `causal_design.md` — treatment/control definitions, DAG, assumptions, confounders, and estimand.
-- `dml_methodology.md` — preprocessing, nuisance models, cross-fitting, diagnostics, inference, and limitations.
-- `synthetic_control.md` — donor selection, weights, fit metrics, placebo/sensitivity analysis, and assumptions.
-- `donor_markets.md` — donor inclusion/exclusion rules and rationale.
-- `validation_diagnostics.md` — checks, results, run date, data version, and known failures.
-- `reports/` — generated outputs and experiment/status records with reproducible provenance.
+## Disclaimer
 
-A documentation statement should be considered complete only when its supporting code, data, test, or output can be identified and reproduced.
-
-## 18. Disclaimer
-
-This repository is an internship development project and analytical prototype. Its simulated data and exploratory estimates are intended for learning and methodological development. They should not be used to make real pricing decisions or represented as validated causal evidence without approved data, reviewed assumptions, reproducible diagnostics, and an appropriate inference strategy.
-
----
-
+This repository is an internship development prototype. Its outputs are intended for learning, software development, and analytical demonstration. They must not be used as commercial pricing recommendations or represented as proven causal effects without approved data, validated identification assumptions, appropriate statistical inference, and documented review.
