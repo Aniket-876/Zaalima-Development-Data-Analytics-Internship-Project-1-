@@ -22,6 +22,8 @@ import pandas as pd
 txn = pd.read_csv("data/processed/cleaned_regional_market_transactions.csv", parse_dates=["date", "treatment_date"])
 ```
 
+
+
 ## 2. Facts relevant to the causal design (for Shrusti)
 
 - **Unit:** market × product × day; 87,600 rows; the panel is complete (365 days for every market-product).
