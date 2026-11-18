@@ -4,7 +4,7 @@
 
 The Synthetic Control Method (SCM) constructs a data-driven counterfactual comparison unit for each treated market by taking a constrained, weighted combination of untreated donor markets. This methodology is particularly well-suited for comparative case studies where parallel trends across simple unweighted averages may be threatened by differences in market size or regional composition.
 
-### Mathematical Formulation
+### Mathematical Formulations
 Let:
 * $Y_{1t}$ be the observed outcome (e.g., daily/weekly gross profit or units sold) for treated market $m \in \{M001, M002, M003, M004\}$ at time $t \in \{1, \dots, T_0, \dots, T\}$.
 * $T_0$ denote the last pre-intervention period (June 30, 2024; day 182).
@@ -14,9 +14,11 @@ Let:
 
 The optimal weight vector $\mathbf{W}^*$ is obtained by solving the constrained convex quadratic programming problem over the pre-treatment period $t \in \{1, \dots, T_0\}$:
 
-$$\min_{\mathbf{W}} \sum_{t=1}^{T_0} \left( Y_{1t} - \sum_{j=2}^{J+1} w_j Y_{jt} \right)^2$$
+$$\min_{\mathbf{W}} \sum_{t=1}^{T_0} \left( Y_{1t} - \sum_{j=2}^{J+1} w_j Y_{jt} \right)^2$$ 
 
 ### Subject to Strict Operational Constraints:
+
+
 1. **Non-negativity constraint:**
    $$w_j \ge 0 \quad \forall j \in \{2, \dots, J+1\}$$
    *(Prevents negative extrapolation and counter-intuitive short positions).*
@@ -24,6 +26,7 @@ $$\min_{\mathbf{W}} \sum_{t=1}^{T_0} \left( Y_{1t} - \sum_{j=2}^{J+1} w_j Y_{jt}
    $$\sum_{j=2}^{J+1} w_j = 1$$
    *(Ensures the synthetic unit is a convex combination strictly inside the support of the donor pool).*
 3. **Sparsity property:**
+   
    Because the objective function minimizes Euclidean distance over a simplex, the resulting optimal weights are typically sparse, assigning non-zero weights only to the most structurally similar donor markets.
 
 ---

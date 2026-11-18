@@ -76,6 +76,9 @@ Transformations applied: type conversion (dates, `promotion`), trimming/upper-ca
 
 **Issue 4: 2024-12-31 is missing.** The data covers 365 days, ending 2024-12-30, while 2024 has 366. This is the same for every market and product, so it does not bias the comparison. It is worth knowing if anyone computes "full-year" totals.
 
+
+
+
 **Issue 5: types and formats.**
 - `date` and `treatment_date` converted from text to proper dates (ISO format).
 - `promotion` converted from float (0.0/1.0) to integer flag (needed so missing values are not silently coerced).

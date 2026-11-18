@@ -11,7 +11,7 @@ However, control markets cannot be treated as automatically valid comparisons. T
 
 ---
 
-## 2. Donor Evaluation Pipeline
+## 2. Donor Evaluations
 
 ```
                               [All 16 Candidate Control Markets (M005–M020)]
